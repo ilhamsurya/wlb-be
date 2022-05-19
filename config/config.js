@@ -1,16 +1,25 @@
-'use strict';
-
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
 
-const config = {};
-const basePath = path.join(__dirname, 'components');
-
-// Require all the files from the components folder and add the imported to a unique configuration object
-fs.readdirSync(basePath).forEach(file => {
-  const componentConfig = require(path.join(basePath, file));
-  Object.assign(config, componentConfig);
-});
-
-module.exports = config;
+module.exports = {
+  development: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+  },
+  test: {
+    username: 'root',
+    password: null,
+    database: 'database_test',
+    host: '127.0.0.1',
+    dialect: 'mysql',
+  },
+  production: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+  },
+};
