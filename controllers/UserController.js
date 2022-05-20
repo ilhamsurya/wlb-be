@@ -2,6 +2,7 @@ const { User } = require('../models');
 const { generateToken, verifyToken } = require('../helpers/jwtAuth');
 const errorHandler = require('../helpers/errorHandler');
 const sendEmail = require('../helpers/emailVerification');
+const { compareHash } = require('../helpers/passwordHash');
 
 class UserController {
   static async getAll(ctx) {
@@ -77,6 +78,34 @@ class UserController {
           message: 'User Verification Success',
           data: verifiedUser[1][0],
         };
+      }
+    } catch (err) {
+      const { status, errors } = errorHandler(err);
+      ctx.response.status = status;
+      ctx.response.body = errors;
+    }
+  }
+  static async login(ctx) {
+    const { email, password } = ctx.request.body;
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw new Error('The email or password is invalid.');
+      } else {
+        const matchPassword = compareHash(password, user.password);
+        if (!matchPassword) {
+          throw new Error('The email or password is invalid.');
+        } else if (matchPassword && user.status !== 'active') {
+          throw new Error('Please verify your account.');
+        } else {
+          const token = generateToken(user);
+          ctx.response.status = 200;
+          ctx.response.body = {
+            message: 'User Login Success',
+            token,
+            user_id: user.id,
+          };
+        }
       }
     } catch (err) {
       const { status, errors } = errorHandler(err);
