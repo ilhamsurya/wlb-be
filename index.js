@@ -3,7 +3,7 @@
 const http = require('http');
 const server = require('./server');
 
-const { port } = require('./config').server;
+const port = process.env.PORT || 3001;
 
 async function bootstrap() {
   /**
