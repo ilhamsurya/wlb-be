@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'User',
+      freezeTableName: true,
     },
   );
   User.beforeCreate(async (user, options) => {
