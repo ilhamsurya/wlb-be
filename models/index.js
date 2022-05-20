@@ -12,16 +12,16 @@ let sequelize;
 if (config.use_env_variable) {
   // sequelize = new Sequelize(process.env[config.use_env_variable], config);
   sequelize = new Sequelize(
-    `postgres://${process.env.DB_USERNAME}:${
+    `postgres://${process.env.DB_USER}:${
       process.env.DB_PASSWORD
-    }@drona.db.elephantsql.com:5432/${process.env.DB_NAME}`,
+    }@drona.db.elephantsql.com:5432/${process.env.DB_DATABASE}`,
   );
 } else {
   // sequelize = new Sequelize(config.database, config.username, config.password, config);
   sequelize = new Sequelize(
-    `postgres://${process.env.DB_USERNAME}:${
+    `postgres://${process.env.DB_USER}:${
       process.env.DB_PASSWORD
-    }@drona.db.elephantsql.com:5432/${process.env.DB_NAME}`,
+    }@drona.db.elephantsql.com:5432/${process.env.DB_DATABASE}`,
   );
 }
 
