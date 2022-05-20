@@ -26,15 +26,15 @@
 ---
 ## API Documentation
 More about API Implementation, explained in postman collection:
-[API Documentation](https://documenter.getpostman.com/view/8882188/TzzBourT)
+[API Documentation](https://documenter.getpostman.com/view/8882188/Uyxogiew)
 
 ---
 
 ## Run Application
 
 * Application
-  * Start MySQL :
-    >   `sudo /etc/init.d/mysql start`
   * Start Application :
-    >   `ruby index.rb`
+    >   `npm run`
+  * Start Application (in development) :
+    >   `npm run dev`
 
