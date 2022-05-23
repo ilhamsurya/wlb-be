@@ -31,7 +31,10 @@ class PostController {
     try {
       const newPost = await Post.create({ title, content, UserId });
       ctx.response.status = 201;
-      ctx.response.body = newPost;
+      ctx.response.body = {
+        message: 'Successfully Created',
+        newPost,
+      };
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
