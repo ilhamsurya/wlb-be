@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const { generateToken, verifyToken } = require('../helpers/jwtAuth');
 const errorHandler = require('../helpers/errorHandler');
-const sendEmail = require('../helpers/emailVerification');
+const sendEmail = require('../helpers/sendEmail');
 const { compareHash } = require('../helpers/passwordHash');
 
 class UserController {
