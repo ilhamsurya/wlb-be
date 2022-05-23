@@ -1,6 +1,6 @@
 const { Post, User, Comment } = require('../models');
 const errorHandler = require('../helpers/errorHandler');
-const sendEmail = require('../helpers/emailVerification');
+const sendEmail = require('../helpers/sendEmail');
 
 class CommentController {
   static async getAll(ctx) {
@@ -46,6 +46,22 @@ you have 1 new comment "${comment.content}" on your post "${post.title}".`,
         };
         sendEmail(emailContent);
       }
+    } catch (err) {
+      const { status, errors } = errorHandler(err);
+      ctx.response.status = status;
+      ctx.response.body = errors;
+    }
+  }
+  static async delete(ctx) {
+    const id = ctx.request.query.id;
+    try {
+      const deletedComment = await Comment.findByPk(id);
+      await Comment.destroy({ where: { id } });
+      ctx.response.status = 200;
+      ctx.response.body = {
+        message: 'Successfully Deleted',
+        deletedComment,
+      };
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
