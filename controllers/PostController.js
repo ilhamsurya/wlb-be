@@ -1,4 +1,5 @@
-const { Post, User } = require('../models');
+const { Post, User, Like, Comment, SubComment } = require('../models');
+const { Op } = require('sequelize');
 const errorHandler = require('../helpers/errorHandler');
 
 class PostController {
@@ -79,6 +80,36 @@ class PostController {
         message: 'Successfully Deleted',
         deletedPost,
       };
+    } catch (err) {
+      const { status, errors } = errorHandler(err);
+      ctx.response.status = status;
+      ctx.response.body = errors;
+    }
+  }
+  static async search(ctx) {
+    const { title } = ctx.request.query;
+    try {
+      const { count, rows: data } = await Post.findAndCountAll({
+        where: {
+          title: {
+            [Op.iRegexp]: `${title}`,
+          },
+        },
+        include: [
+          {
+            model: User,
+          },
+          {
+            model: Like,
+          },
+          {
+            model: Comment,
+            include: [SubComment],
+          },
+        ],
+      });
+      ctx.response.status = 200;
+      ctx.response.body = { count, data };
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
