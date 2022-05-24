@@ -4,11 +4,11 @@
 
 * Requirements:
   * [✓] Registration & login features, registration need to be validated by email verification and user status changed from "REGISTERED" to "ACTIVATED"
-  * [ ] User can create, edit or delete a post
-  * [ ] Registered user can comment in a post, and another user can comment in the user comment. with the depth of 1 comment each
-  * [ ] Registered user can like a post 
+  * [✓] User can create, edit or delete a post
+  * [✓] Registered user can comment in a post, and another user can comment in the user comment. with the depth of 1 comment each
+  * [✓] Registered user can like a post 
   * [ ] Notification when other user like or comment in our post, notification will be delivered by email
-  * [ ] Search post by title
+  * [✓] Search post by title
   * [ ] Filter post by date,user,comment count,like as ascending & descending
   * [ ] Every API Request will be saved in mongodb as log, the log will contain endpoint path, user detail, duration access, request, response and timestamp
   * [ ] Fully documented API using postman or insomnia
