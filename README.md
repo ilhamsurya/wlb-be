@@ -38,3 +38,6 @@ More about API Implementation, explained in postman collection:
   * Start Application (in development) :
     >   `npm run dev`
 
+* Deployment
+  * Heroku Link :
+    >   `https://hidden-depths-81497.herokuapp.com/users`
