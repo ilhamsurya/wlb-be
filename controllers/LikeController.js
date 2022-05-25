@@ -22,7 +22,7 @@ class LikeController {
           ctx.response.body = like;
         }
       } else {
-        throw new Error('Only 1 like per post');
+        throw new Error('You cannot like same post twice');
       }
     } catch (err) {
       const { status, errors } = errorHandler(err);
