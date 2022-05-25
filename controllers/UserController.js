@@ -95,7 +95,7 @@ class UserController {
         const matchPassword = compareHash(password, user.password);
         if (!matchPassword) {
           throw new Error('The email or password is invalid.');
-        } else if (matchPassword && user.status !== 'active') {
+        } else if (matchPassword && user.status !== 'ACTIVATED') {
           throw new Error('Please verify your account.');
         } else {
           const token = generateToken(user);
