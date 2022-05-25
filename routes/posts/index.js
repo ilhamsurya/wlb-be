@@ -6,7 +6,8 @@ function postsRoute(router) {
     .get('/posts', PostController.getAll)
     .put('/posts', authentication, PostController.update)
     .delete('/posts', authentication, PostController.delete)
-    .get('/posts/search', authentication, PostController.search);
+    .get('/posts/search', authentication, PostController.search)
+    .get('/posts/filter', authentication, PostController.filter);
 }
 
 module.exports = postsRoute;

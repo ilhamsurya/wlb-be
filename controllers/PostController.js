@@ -1,6 +1,7 @@
 const { Post, User, Like, Comment, SubComment } = require('../models');
 const { Op } = require('sequelize');
 const errorHandler = require('../helpers/errorHandler');
+const filterPost = require('../helpers/filterPost');
 
 class PostController {
   static async getAll(ctx) {
@@ -95,6 +96,34 @@ class PostController {
             [Op.iRegexp]: `${title}`,
           },
         },
+        include: [
+          {
+            model: User,
+          },
+          {
+            model: Like,
+          },
+          {
+            model: Comment,
+            include: [SubComment],
+          },
+        ],
+      });
+      ctx.response.status = 200;
+      ctx.response.body = { count, data };
+    } catch (err) {
+      const { status, errors } = errorHandler(err);
+      ctx.response.status = status;
+      ctx.response.body = errors;
+    }
+  }
+  static async filter(ctx) {
+    const { type, value } = ctx.request.query;
+    const filterType = type.split(',');
+    const filterOrder = filterPost(filterType, value);
+    try {
+      const { count, rows: data } = await Post.findAndCountAll({
+        order: filterOrder,
         include: [
           {
             model: User,
