@@ -1,19 +1,52 @@
-const { User } = require('../models');
+const { User, Post, Like, Comment, SubComment } = require('../models');
 const { generateToken, verifyToken } = require('../helpers/jwtAuth');
 const errorHandler = require('../helpers/errorHandler');
 const sendEmail = require('../helpers/sendEmail');
 const { compareHash } = require('../helpers/passwordHash');
+const log = require('../helpers/logger');
 
 class UserController {
   static async getAll(ctx) {
+    const startTime = Date.now();
     try {
-      const users = await User.findAll({});
+      const users = await User.findAll({
+        include: [
+          {
+            model: Post,
+            include: [
+              {
+                model: Like,
+              },
+              {
+                model: Comment,
+                include: [SubComment],
+              },
+            ],
+          },
+        ],
+      });
       ctx.response.status = 200;
       ctx.response.body = users;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
 
