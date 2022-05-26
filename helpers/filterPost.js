@@ -2,8 +2,6 @@ const { Sequelize } = require('sequelize');
 
 function filterPost(arr, order) {
   const resOrder = [];
-  console.log(arr);
-  console.log(order);
   arr.forEach(availOption => {
     switch (availOption.toLowerCase()) {
       case 'date':
