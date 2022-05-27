@@ -18,7 +18,12 @@ class LogController {
       console.log('NEW');
       console.log(ctx.request.body);
       const log = new Log(ctx.request.body);
-      await log.save();
+      try {
+        await log.save();
+      } catch (error) {
+        console.log(error);
+      }
+
       ctx.response.status = 201;
       ctx.response.body = log;
     } catch (err) {
@@ -28,7 +33,7 @@ class LogController {
     }
   }
   static async delete(ctx) {
-    const id = ctx.request.params.id;
+    const id = ctx.request.query.id;
     try {
       const deletedLog = await Log.findByIdAndDelete(id);
       if (!deletedLog) {
