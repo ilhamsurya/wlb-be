@@ -7,19 +7,19 @@ const LogSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    user_detail: {
+    userDetail: {
       type: Object,
       required: true,
     },
-    api_access_time: {
+    accessTime: {
       type: Number,
       required: true,
     },
-    request_object: {
+    requestObject: {
       type: Object,
       required: true,
     },
-    response_object: {
+    responseObject: {
       type: Object,
       required: true,
     },
