@@ -10,7 +10,7 @@
   * [ ] Notification when other user like or comment in our post, notification will be delivered by email
   * [✓] Search post by title
   * [✓] Filter post by date,user,comment count,like as ascending & descending
-  * [ ] Every API Request will be saved in mongodb as log, the log will contain endpoint path, user detail, duration access, request, response and timestamp
+  * [✓] Every API Request will be saved in mongodb as log, the log will contain endpoint path, user detail, duration access, request, response and timestamp
   * [✓] Fully documented API using postman or insomnia
 ---
 
