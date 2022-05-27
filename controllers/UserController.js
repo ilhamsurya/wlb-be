@@ -51,6 +51,7 @@ class UserController {
   }
 
   static async register(ctx) {
+    const startTime = Date.now();
     const { username, email, password } = ctx.request.body;
     try {
       const newUser = await User.create({ username, email, password });
@@ -65,6 +66,14 @@ class UserController {
         verificationToken,
         data: newUser,
       };
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        { username, email },
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
       // Send email with Mailgun API :
       const url = `${
         process.env.BASE_URL
@@ -80,9 +89,18 @@ class UserController {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
   static async verify(ctx) {
+    const startTime = Date.now();
     const { token } = ctx.request.query;
     try {
       const userData = verifyToken(token);
@@ -111,14 +129,31 @@ class UserController {
           message: 'User Verification Success',
           data: verifiedUser[1][0],
         };
+        log(
+          `${ctx.request.host}${ctx.request.url}`,
+          { username: user.username, email: user.email },
+          ctx.request.header.access_token,
+          startTime,
+          ctx.request,
+          ctx.response,
+        );
       }
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
   static async login(ctx) {
+    const startTime = Date.now();
     const { email, password } = ctx.request.body;
     try {
       const user = await User.findOne({ where: { email } });
@@ -138,12 +173,28 @@ class UserController {
             token,
             user_id: user.id,
           };
+          log(
+            `${ctx.request.host}${ctx.request.url}`,
+            { username: user.username, email: user.email },
+            ctx.request.header.access_token,
+            startTime,
+            ctx.request,
+            ctx.response,
+          );
         }
       }
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
 }

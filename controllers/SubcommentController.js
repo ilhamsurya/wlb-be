@@ -1,9 +1,11 @@
 const { SubComment, Comment, User, Post } = require('../models');
 const errorHandler = require('../helpers/errorHandler');
+const log = require('../helpers/logger');
 
 class SubCommentController {
   static async create(ctx) {
     const UserId = ctx.user.id;
+    const startTime = Date.now();
     if (ctx.request.body.content === undefined) {
       ctx.request.body.content = null;
     }
@@ -26,15 +28,32 @@ class SubCommentController {
         ctx.response.status = 201;
         ctx.response.body = subComment;
       }
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
 
   static async delete(ctx) {
     const id = ctx.request.query.id;
+    const startTime = Date.now();
     try {
       const deletedSubComment = await SubComment.findByPk(id);
       await SubComment.destroy({ where: { id } });
@@ -43,10 +62,26 @@ class SubCommentController {
         message: 'Successfully Deleted',
         deletedSubComment,
       };
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     } catch (err) {
       const { status, errors } = errorHandler(err);
       ctx.response.status = status;
       ctx.response.body = errors;
+      log(
+        `${ctx.request.host}${ctx.request.url}`,
+        null,
+        ctx.request.header.access_token,
+        startTime,
+        ctx.request,
+        ctx.response,
+      );
     }
   }
 }
