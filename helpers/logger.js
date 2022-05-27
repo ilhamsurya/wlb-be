@@ -8,8 +8,8 @@ async function log(
   userObject,
   accessToken,
   reqStartTime,
-  reqObj,
-  resObj,
+  requestObject,
+  responseObject,
 ) {
   const accessTime = Date.now() - reqStartTime;
   let userDetail;
@@ -49,8 +49,8 @@ async function log(
       path,
       userDetail,
       accessTime,
-      reqObj,
-      resObj,
+      requestObject,
+      responseObject,
     });
     console.log('logged successfully');
   } catch (err) {
